@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <script src="//yijigao.github.io/libs/d3.v4.min.js"></script>
   <script src="//yijigao.github.io/libs/dimple.v2.3.0.min.js"></script>
+  <script src="//yijigao.github.io/baseball_new.csv"></script>
     <style>
       h2 {
         text-align: center;
@@ -129,7 +130,7 @@
   <script type="text/javascript">
   
     // Use D3 to load the csv file
-    d3.csv("https://yijigao.github.io/baseball_new.csv", function(d) {
+    d3.csv("baseball_new.csv", function(d) {
       d['height'] = +d['height'];
       d['weight'] = +d['weight'];
       d['avg'] = +d['avg'];
