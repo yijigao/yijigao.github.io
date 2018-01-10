@@ -35,14 +35,13 @@
         var my_val = ['height_group', 'weight_group', 'avg_group'];
 
         // Add a button
-        var buttons = d3.select("body")
-                        .append("div")
-                        .attr("class", "val_buttons")
-                        .selectAll("div")
-                        .data(my_val)
-                        .enter()
-                        .append("div")
-                        .text(function(d) {return d.split("_")[0];});
+        var buttons = svg.append("div")
+                         .attr("class", "val_buttons")
+                         .selectAll("div")
+                         .data(my_val)
+                         .enter()
+                         .append("div")
+                         .text(function(d) {return d.split("_")[0];});
 
         var svg = dimple.newSvg("body", 1280, 720);
         var myChart = new dimple.chart(svg, data);
