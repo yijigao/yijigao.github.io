@@ -66,7 +66,7 @@
           var myChart = new dimple.chart(svg, data);
           myChart.setBounds(300, 45, 800, 600);
           var y = myChart.addMeasureAxis("y", "HR");
-          y.title = "Average Homers Score(HR)";
+          y.title = "Average Home Run(HR)";
           var x = myChart.addCategoryAxis("x", val);
           x.title = val.split('_')[0];
           x.addOrderRule(val);
@@ -100,7 +100,7 @@
               }
             };
           myChart.addLegend(300, 20, 800, 200, "right");
-          myChart.draw(1000);
+          myChart.draw(800);
         } 
 
         buttons.on("click", function(d) {
