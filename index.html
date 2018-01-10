@@ -16,9 +16,9 @@
       }
 
       div.val_buttons div {
-          background-color: rgb(251, 201, 127);
-          padding: 3px;
-          margin: 7px;
+          background-color: rgb(107, 207, 250);
+          padding: 20px;
+          margin: 10px;
       }
 
     </style>
@@ -30,24 +30,25 @@
         // Add a title
         d3.select('body')
           .append('h2')
-          .text("Baseball: Left or Right?");
+          .text("Baseball: Left or Right Hand?");
 
         var my_val = ['height_group', 'weight_group', 'avg_group'];
 
         // Add a button
-        var buttons = svg.append("div")
-                         .attr("class", "val_buttons")
-                         .selectAll("div")
-                         .data(my_val)
-                         .enter()
-                         .append("div")
-                         .text(function(d) {return d.split("_")[0];});
+        var buttons = d3.select("body")
+                        .append("div")
+                        .attr("class", "val_buttons")
+                        .selectAll("div")
+                        .data(my_val)
+                        .enter()
+                        .append("div")
+                        .text(function(d) {return d.split("_")[0];});
 
         var svg = dimple.newSvg("body", 1280, 720);
         var myChart = new dimple.chart(svg, data);
         myChart.setBounds(300, 45, 800, 600);
         var y = myChart.addMeasureAxis("y", "HR");
-        y.title = "Average HR";
+        y.title = "Average Homers Score(HR)";
         var x = myChart.addCategoryAxis("x", "handedness");
         var s = myChart.addSeries(null, dimple.plot.bar);
         s.aggregate = dimple.aggregateMethod.avg;
@@ -64,8 +65,8 @@
           var svg = dimple.newSvg("body", 1280, 720);
           var myChart = new dimple.chart(svg, data);
           myChart.setBounds(300, 45, 800, 600);
-          var y = myChart.addPctAxis("y", "HR");
-          y.title = "Average HR";
+          var y = myChart.addMeasureAxis("y", "HR");
+          y.title = "Average Homers Score(HR)";
           var x = myChart.addCategoryAxis("x", val);
           x.title = val.split('_')[0];
           x.addOrderRule(val);
@@ -108,13 +109,13 @@
             .transition()
             .duration(100)
             .style("color", "black")
-            .style("background", "rgb(251, 201, 127)");
+            .style("background", "rgb(107, 207, 250)");
 
           d3.select(this)
             .transition()
             .duration(500)
             .style("color", "white")
-            .style("background", "lightBlue");
+            .style("background", "rgb(150, 107, 235)");
 
           update(d);
         });
