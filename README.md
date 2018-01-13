@@ -22,8 +22,9 @@ update 2018/01/13
 
 4. 可视化图形设计
 
-| 图表类型 | x 轴 | y 轴 | 颜色 | 图例 |
-| 分组柱状图 | handedness/weight/height/avg | y1: Average HR; y2: Total Number of Players | handedness | handedness |
+图表类型 | x 轴 | y 轴 | 颜色 | 图例
+--- | --- | --- | --- | ---
+分组柱状图 | handedness/weight/height/avg | y1: Average HR; y2: Total Number of Players | handedness | handedness
 
 5. 可视化动画与互动： 添加了变量按钮, 过渡动画提供读者进行切换变量来进行探索互动
 6. 将堆叠柱形图改为分组柱形图（根据反馈更新）
