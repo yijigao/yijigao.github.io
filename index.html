@@ -9,13 +9,13 @@
         text-align: center;
       }
 
-      div.val_buttons {
+      div.buttons {
         position: fixed;
         top: 110px;
         right: 300px;
       }
 
-      div.val_buttons div {
+      div.buttons div {
           background-color: rgb(107, 207, 250);
           padding: 20px;
           margin: 10px;
@@ -32,79 +32,95 @@
           .append('h2')
           .text("Baseball: Left or Right Hand?");
 
-        var my_val = ['height_group', 'weight_group', 'avg_group'];
+        var val = ['handedness','height_group', 'weight_group', 'avg_group'];
+      
 
+        
         // Add a button
         var buttons = d3.select("body")
                         .append("div")
-                        .attr("class", "val_buttons")
+                        .attr("class", "buttons")
                         .selectAll("div")
-                        .data(my_val)
+                        .data(val)
                         .enter()
                         .append("div")
-                        .text(function(d) {return d.split("_")[0];});
+                        .text(function(d) {return d.split("_")[0];});;
+
 
         var svg = dimple.newSvg("body", 1280, 720);
-        var myChart = new dimple.chart(svg, data);
-        myChart.setBounds(300, 45, 800, 600);
-        var y = myChart.addMeasureAxis("y", "HR");
-        y.title = "Average Homers Score(HR)";
-        var x = myChart.addCategoryAxis("x", "handedness");
-        var s = myChart.addSeries(null, dimple.plot.bar);
-        s.aggregate = dimple.aggregateMethod.avg;
-        myChart.addLegend(300, 20, 800, 200, "right");
-        myChart.draw(800);
-        
 
-        function update(val) {
+
+        function update(val){
 
           // Remove existed svg before update
-          d3.select('svg')
-            .remove();
+          svg.selectAll("*").remove()
 
-          var svg = dimple.newSvg("body", 1280, 720);
           var myChart = new dimple.chart(svg, data);
           myChart.setBounds(300, 45, 800, 600);
-          var y = myChart.addMeasureAxis("y", "HR");
-          y.title = "Average Home Run(HR)";
-          var x = myChart.addCategoryAxis("x", val);
-          x.title = val.split('_')[0];
-          x.addOrderRule(val);
 
-          var s = myChart.addSeries(["handedness"], dimple.plot.bar);
+          if (val != 'handedness') {
+            var x = myChart.addCategoryAxis("x", [val, "handedness"]);
+            x.title = val.split("_")[0];
+          } else {
+            var x = myChart.addCategoryAxis("x", [val]);
+          }
+          x.addOrderRule(val);
+          var x2 = myChart.addCategoryAxis("x", val)
+          x2.addOrderRule(val);
+          x2.hidden = true;
+
+          var y1 = myChart.addMeasureAxis("y", "HR");
+          
+          var y2 = myChart.addMeasureAxis("y", "name");
+          y1.title = "Average Homers Score(HR)";
+          y2.title = "Total Number of Players";
+
+          // myChart.addSeries(null, dimple.plot.line, [x,z]);
+          
+          var s = myChart.addSeries("handedness", dimple.plot.bar,[x,y1]);
           s.aggregate = dimple.aggregateMethod.avg;
           // Using the afterDraw callback means this code still works with animated draws(e.g myChart.draw(1000)) 
           // or storyboards (though an onTick callback should also be used to clear the text from the previous frame)
-          s.afterDraw = function(shape, data) {
-              //get the shape as a d3 selection
-            var s = d3.select(shape),
-              rect = {
-                  x: parseFloat(s.attr("x")),
-                  y: parseFloat(s.attr("y")),
-                  width: parseFloat(s.attr("width")),
-                  height: parseFloat(s.attr("height"))
-                };
+          // s.afterDraw = function(shape, data) {
+          //     //get the shape as a d3 selection
+          //   var s = d3.select(shape),
+          //     rect = {
+          //         x: parseFloat(s.attr("x")),
+          //         y: parseFloat(s.attr("y")),
+          //         width: parseFloat(s.attr("width")),
+          //         height: parseFloat(s.attr("height"))
+          //       };
 
-            // Only label bars where the text can fit
-            if (rect.height >= 8) {
-              // add a text label for the value
-              svg.append("text")
-                 .attr("x", rect.x + rect.width / 2)
-                 .attr("y", rect.y + rect.height / 2 + 3.5)
-                 .style("text-anchor", "middle")
-                 .style("font-size", "10px")
-                 .style("font-family", "sans-serif")
-                 .style("opacity", 0.6)
-                 .style("pointer-events", "none")
-                 .text(d3.format(",.1f")(data.yValue)); 
-              }
-            };
+          //     // Only label bars where the text can fit
+          //   if (rect.height >= 8) {
+          //     // add a text label for the value
+          //     svg.append("text")
+          //        .attr("x", rect.x + rect.width / 2)
+          //        .attr("y", rect.y + rect.height / 2 + 3.5)
+          //        .style("text-anchor", "middle")
+          //        .style("font-size", "10px")
+          //        .style("font-family", "sans-serif")
+          //        .style("opacity", 0.6)
+          //        .style("pointer-events", "none")
+          //        .text(d3.format(",.1f")(data.yValue)); 
+          //     }
+          //   };
+          var l = myChart.addSeries(null, dimple.plot.line, [x2, y2]);
+          var l = myChart.addSeries(null, dimple.plot.circle, [x2,y2]);
+          l.lineMarkers = true;
+
+          // l.aggregate = dimple.aggregateMethod.avg;
+          // l.shapes.selectAll("circle").attr('r', 10).style('fill', 'red');
           myChart.addLegend(300, 20, 800, 200, "right");
           myChart.draw(800);
         } 
 
+
+        update('handedness', 'HR'); // 初始化图形
+
+
         buttons.on("click", function(d) {
-          d3.select(".val_buttons")
+          d3.select(".buttons")
             .selectAll("div")
             .transition()
             .duration(100)
@@ -120,8 +136,7 @@
           update(d);
         });
 
-
-        
+      update('handedness');
       }
     </script>
   </head>
