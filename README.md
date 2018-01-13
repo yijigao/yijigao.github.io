@@ -17,9 +17,11 @@ Data Visualization with D3.js
 2. 添加了变量按钮（身高，体重，击球率），使用颜色区分选手用手习惯
 3. 可视化图形选取身高、体重、击球率与全垒得分的关系，讲述不同体型（身高体重）的选手的用手习惯与比赛表现（全垒得分）的差异
 
-*** update 2018/01/13
+*** 
+update 2018/01/13
 
 4. 可视化图形设计
+
 | 图表类型 | x 轴 | y 轴 | 颜色 | 图例 |
 | 分组柱状图 | handedness/weight/height/avg | y1: Average HR; y2: Total Number of Players | handedness | handedness |
 
